@@ -131,8 +131,15 @@ $(document).ready(function($) {
 							$('#submit-quote-container').css({'opacity':1}).animate({'opacity':0});
 							$('#success-email').show().fadeIn();
 							$('#get-quote-button').toggleClass('active');
+							$('#recaptcha-failure-email').hide().fadeOut();
 							document.getElementById('estimate-form').reset();
-						}, 
+						}, function(err) {
+							if (err.status === 400) {
+								$('#recaptcha-container').css({'border-left':'8px solid red'});
+								$('#recaptcha-failure-email').show().fadeIn();
+							} else {
+								$('#failure-email').show().fadeIn();
+							}
 							$('#get-quote-button').toggleClass('active');
 						});
 
