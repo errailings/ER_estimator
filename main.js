@@ -6,7 +6,7 @@ $(document).ready(function($) {
 					cap: "flat",
 					mount: "core",
 					getFileName : function() {
-        		return "img/all/" + this.color + "_" + this.type + "_" + this.cap + "_" + this.mount + ".png";
+        		return "all/" + this.color + "_" + this.type + "_" + this.cap + "_" + this.mount + ".png";
 					}
 				};
         
