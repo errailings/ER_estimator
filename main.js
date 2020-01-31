@@ -33,6 +33,118 @@ $(document).ready(function($) {
 						$this.closest('#multiselect ul').find("li").children("ul").css("margin-top","20px");
 					};
 				});
+	
+	
+	var estimateForm = $('form#estimate-form');
+
+				estimateForm.submit(function(event){
+					event.preventDefault();
+
+					var basePrice = 520;
+					var unitPrice = 220;
+
+					var replyTo = document.getElementById('quote-email').value;
+					var linealLength = document.getElementById('lineal').value === '' ? 0 : document.getElementById('lineal').value;
+					var stairLength = document.getElementById('stairs').value === '' ? 0 : document.getElementById('stairs').value;
+					var isInstall = $('#installselect-checkbox').prop('checked');
+					var amount = 0;
+					var glassMultiplier = rail.type === "glass" ? 1.02 : 1;
+					var mountMultiplier = rail.mount !== "core" ? 1.15 : 1;
+					var colorMultiplierNoInstall = rail.color !== "cl" ? 1.08 : 1;
+					var colorMultiplierWithInstall = rail.color !== "cl" ? 1.04 : 1;
+					var totalLength = Number(linealLength) + Number(stairLength);
+
+					if (isInstall) {
+						var multiplierStraights = Number(linealLength);
+						var multiplierStairs = Number(stairLength) * 1.1;
+						var tlf = (multiplierStraights + multiplierStairs);
+
+						if (totalLength == 1) {
+							amount = basePrice * mountMultiplier;
+						} else if(totalLength < 100) {
+							amount = (basePrice - (tlf * 3)) * tlf * mountMultiplier;
+						} else {
+							amount = tlf * unitPrice * mountMultiplier;
+						}
+
+						isInstall = "supply and install";
+						amount =  amount * colorMultiplierWithInstall * glassMultiplier;
+					} else {
+						isInstall = "supply";
+						var a = 116 * Number(linealLength);
+						var b = 138 * Number(stairLength);
+						amount = (a + b) * mountMultiplier * colorMultiplierNoInstall * glassMultiplier;
+					}
+
+					var emailParams = {
+						linealLength: linealLength,
+						stairLength: stairLength,
+						installation: isInstall,
+						color: rail.color,
+						type: rail.type,
+						cap: rail.cap,
+						mount: rail.mount,
+						amount: Math.round(amount),
+						replyTo: replyTo,
+						sum: totalLength
+					};
+
+					sendEmail(emailParams);
+				});
+
+				function sendEmail(emailParams) {
+					var niceColor;
+
+					switch (emailParams.color) {
+					    case "cl":
+					        niceColor = "clear";
+					        break;
+					    case "db":
+					        niceColor = "dark bronze";
+					        break;
+					    case "mb":
+					        niceColor = "medium bronze";
+					        break;
+					}
+
+					var templateParams = {
+							replyTo: emailParams.replyTo,
+							linealLength: emailParams.linealLength,
+							stairLength: emailParams.stairLength,
+							installation: emailParams.installation,
+							color: niceColor,
+							type: emailParams.type,
+							cap: emailParams.cap,
+							mount: emailParams.mount === "bracket" ? "side" : emailParams.mount,
+							amount: emailParams.amount,
+							sum: emailParams.sum
+					};
+
+					var service_id = "default_service";
+					var template_id = "template_lIPOGcWC";
+
+					$('#get-quote-button').addClass('active');
+
+					emailjs.send(service_id, template_id, templateParams)
+						.then(function(){
+							$('#get-estimate-row').slideUp();
+							$('#submit-quote-container').css({'opacity':1}).animate({'opacity':0});
+							$('#success-email').show().fadeIn();
+							$('#get-quote-button').toggleClass('active');
+							$('#recaptcha-failure-email').hide().fadeOut();
+							document.getElementById('estimate-form').reset();
+						}, function(err) {
+							if (err.status === 400) {
+								$('#recaptcha-container').css({'border-left':'8px solid red'});
+								$('#recaptcha-failure-email').show().fadeIn();
+							} else {
+								$('#failure-email').show().fadeIn();
+							}
+							$('#get-quote-button').toggleClass('active');
+						});
+
+					return false;
+				}
 
 				var context = $(this);
 
