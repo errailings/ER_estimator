@@ -46,7 +46,8 @@ $(document).ready(function($) {
 					var replyTo = document.getElementById('quote-email').value;
 					var linealLength = document.getElementById('lineal').value === '' ? 0 : document.getElementById('lineal').value;
 					var stairLength = document.getElementById('stairs').value === '' ? 0 : document.getElementById('stairs').value;
-					var isInstall = $('#installselect-checkbox').prop('checked');
+// 					var isInstall = $('#installselect-checkbox').prop('checked');
+					var isInstall = $('input.checkbox_check').is(':checked').value;
 					var amount = 0;
 					var glassMultiplier = rail.type === "glass" ? 1.02 : 1;
 					var mountMultiplier = rail.mount !== "core" ? 1.15 : 1;
