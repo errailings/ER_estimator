@@ -89,6 +89,6 @@ display: flex !important;
     left: -14px;
 }
 
-#flexrow {width:100%;}
-#row50 {width:50%;}
-#rail-img-container {width:50%;}
+#flexrow {width:100%; display:block !important;}
+#row50 {width:50%; display:inline !important;}
+#rail-img-container {width:50%; display:inline !important;}
