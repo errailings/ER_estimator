@@ -89,5 +89,6 @@ box-shadow: 1px 2px 30px rgba(0, 0, 0, .1);
 }
 
 #flexrow {width:100%;}
+#colform {width:50%; float:left;}
 #rail-img-container {width:50% !important;}
 #rail-img {width:100% !important;}
