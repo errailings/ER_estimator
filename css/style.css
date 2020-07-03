@@ -89,5 +89,5 @@ display: flex !important;
     left: -14px;
 }
 
-#rail-img-container {width:30%; flex-wrap: nowrap; display:flex;}
-#row50 {width:30%; flex-wrap: nowrap; display:flex;}
+#rail-img-container {width:30%; flex-wrap: nowrap; display:flex !important;}
+#row50 {width:30%; flex-wrap: nowrap; display:flex !important;}
