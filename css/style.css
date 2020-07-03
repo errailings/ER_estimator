@@ -3,7 +3,7 @@ body {
 }
 
 .card-body {
-background-color:#FFFFFF;
+background-color: white !important;
 margin:50px;
 padding:45px;
 border-radius:2px;
