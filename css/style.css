@@ -95,8 +95,10 @@ box-shadow: 1px 2px 30px rgba(0, 0, 0, .1);
 #rail-img-container {width:50% !important;}
 #rail-img {width:100% !important;}
 
+#get-quote-button-container {border: 0px !important;}
+
 button {
-  background-color: #4CAF50; /* Green */
+  background-color: #cda462; /* Gold */
   border: none;
   color: white;
   padding: 15px 32px;
